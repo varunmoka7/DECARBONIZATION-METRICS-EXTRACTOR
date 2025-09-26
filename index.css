@@ -1,0 +1,200 @@
+
+
+/* Ensures Tailwind's base styles are applied if not using PostCSS compilation */
+/* @tailwind base; */ /* Not needed if Tailwind is CDN */
+/* @tailwind components; */
+/* @tailwind utilities; */
+
+/* Import the Inter font family from Google Fonts */
+/* This is already in <head> of index.html, but good to have here for reference or if that changes */
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap'); */
+
+/* Apply the font family to the body, matching index.html <style> for consistency */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Minimal reset or base styles if necessary */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Remove focus rings for non-keyboard interactions for better aesthetics, but ensure keyboard accessibility is maintained */
+/* Be cautious with this and test thoroughly for accessibility */
+/* *:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: none;
+} */
+
+/* Page load fade-in animation */
+@keyframes fadeInPage {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fadeInPage {
+  animation: fadeInPage 0.6s ease-out forwards;
+}
+
+/* General element fade-in animation (can be used with delays) */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn {
+  opacity: 0; /* Start hidden */
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+
+/* Typewriter cursor blink animation */
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.animate-cursorBlink {
+  animation: cursorBlink 0.7s infinite;
+  font-weight: bold; /* Make cursor more visible */
+}
+
+/* Screen-specific styles for report display */
+@media screen {
+  .report-print-area {
+    display: none; /* Hidden on screen */
+  }
+}
+
+
+/* Print specific styles */
+@media print {
+  body, html { /* Ensure these are set for printing consistency */
+    font-family: 'Times New Roman', Times, serif !important; /* Common print font */
+    font-size: 11pt !important;
+    color: #000 !important;
+    background-color: #fff !important; /* Ensure white background for print */
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Hide non-essential elements for printing */
+  header, 
+  footer, 
+  nav,
+  button:not(.print-button), /* Hide buttons unless explicitly marked for print */
+  .print\:hidden, /* Tailwind-like utility for print hiding */
+  .screen-only-container /* Hide the container that holds the download button */
+   { 
+    display: none !important;
+  }
+  
+  /* Ensure ReportInput and other forms are hidden */
+  .bg-white.p-6.sm\:p-8.rounded-xl.shadow-xl, /* ReportInput's outer div */
+  .mt-8.bg-white.p-8.rounded-xl.shadow-xl.text-center, /* InitialStateMessage */
+  .mt-10.p-6.bg-white.rounded-xl.shadow-xl, /* Post-extraction action boxes */
+  .mt-10.p-6.bg-white.rounded-xl.shadow-xl.border-t-4 /* V1, V2, V3 post extraction boxes for report generation UI */
+  {
+    display: none !important;
+  }
+  .dark .bg-slate-800.p-6.sm\:p-8.rounded-xl.shadow-xl,
+  .dark .mt-8.bg-slate-800.p-8.rounded-xl.shadow-xl.text-center,
+  .dark .mt-10.p-6.bg-slate-800.rounded-xl.shadow-xl,
+  .dark .mt-10.p-6.bg-slate-800.rounded-xl.shadow-xl.border-t-4
+  {
+      display: none !important;
+  }
+
+
+  /* Report specific print styles */
+  .printable-report { /* Root container for the report display component */
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important; 
+    width: 100% !important;
+    max-width: 100% !important;
+    background-color: #fff !important; /* Ensure white background for print */
+  }
+  
+  .report-print-area {
+    display: block !important; /* Make the actual report content visible for print */
+  }
+
+  .report-content { /* Inner container for report textual content */
+    box-shadow: none !important;
+    border: none !important;
+    padding: 1cm !important; /* Margins for the printed page */
+    font-size: 10pt !important; /* Smaller font for print */
+    background-color: #fff !important; /* Ensure white background for print */
+  }
+  
+  .report-page {
+    padding-top: 0.5cm; /* Spacing at top of each new 'page' section */
+    padding-bottom: 0.5cm; /* Spacing at bottom of each 'page' section */
+  }
+
+  .page-break-before {
+    page-break-before: always !important;
+  }
+  .page-break-after {
+    page-break-after: always !important;
+  }
+  .page-break-inside-avoid {
+    page-break-inside: avoid !important;
+  }
+
+  /* Adjust heading sizes for print */
+  .print\:text-2xl { font-size: 18pt !important; }
+  .print\:text-xl { font-size: 14pt !important; }
+  .print\:text-lg { font-size: 12pt !important; }
+  .print\:text-base { font-size: 10pt !important; }
+  .print\:text-sm { font-size: 9pt !important; }
+  .print\:text-xs { font-size: 8pt !important; }
+
+  /* Make sure links are not blue and underlined if not desired */
+  a, a:visited {
+    color: #000 !important; /* Black text for links */
+    text-decoration: none !important; /* Remove underline */
+  }
+  /* Optionally, show URLs for links in print */
+  /* a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 90%;
+    color: #555;
+  } */
+
+  /* Tailwind prose adjustments for print */
+  .print\:prose-xs {
+    font-size: 9pt !important;
+    line-height: 1.4 !important;
+  }
+   .print\:prose-xs p, .print\:prose-xs div { /* Apply to div too for overallAnalysis */
+    margin-top: 0.5em !important;
+    margin-bottom: 0.5em !important;
+  }
+
+  /* Card styles for print */
+  .print\:shadow-none { box-shadow: none !important; }
+  .print\:border-slate-300 { border-color: #cbd5e1 !important; } /* Example for slate-300 */
+  .print\:bg-transparent { background-color: transparent !important; }
+  .print\:p-0 { padding: 0 !important; }
+  .print\:p-2 { padding: 0.5rem !important; } /* Tailwind p-2 */
+  .print\:p-4 { padding: 1rem !important; } /* Tailwind p-4 */
+  .print\:border-l-2 { border-left-width: 2px !important; }
+
+}
+
+/* Dark mode prose styles if needed (Tailwind might handle this with dark:prose-invert) */
+/* .dark .prose {
+  color: theme('colors.slate.300');
+}
+.dark .prose h1, .dark .prose h2, .dark .prose h3, .dark .prose h4 {
+  color: theme('colors.slate.100');
+}
+.dark .prose strong {
+  color: theme('colors.slate.100');
+}
+.dark .prose a {
+  color: theme('colors.sky.400');
+} */
+/* Tailwind's dark:prose-invert should generally be preferred */

@@ -1,0 +1,6 @@
+{
+  "name": "ESG Metrics Extractor",
+  "description": "An application to extract Environmental, Social, and Governance (ESG) Key Performance Indicators (KPIs) from sustainability reports using AI.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}
